@@ -3,7 +3,7 @@ import BottomNav from "../components/BottomNav";
 
 export default function Downloads() {
   return (
-    <div className="min-h-screen bg-base pb-24 text-white">
+    <div className="min-h-screen relative z-10 pb-24 text-white">
       <div className="mx-auto max-w-md px-4 pt-6">
         <h1 className="text-lg font-bold">Downloads</h1>
         <p className="text-sm text-white/40">Movies you've downloaded for offline viewing</p>

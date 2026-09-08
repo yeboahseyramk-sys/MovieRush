@@ -56,7 +56,7 @@ export default function Home() {
   const recent = [...movies].slice(0, 6);
 
   return (
-    <div className="min-h-screen bg-base pb-24 text-white">
+    <div className="min-h-screen relative z-10 pb-24 text-white">
       <div className="mx-auto max-w-md px-4 pt-6">
         {/* Header */}
         <div className="flex items-center justify-between">

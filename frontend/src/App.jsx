@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import CinematicBackground from "./components/CinematicBackground";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
@@ -11,6 +12,8 @@ import { ProtectedRoute, AdminRoute } from "./components/ProtectedRoute";
 
 export default function App() {
   return (
+    <>
+    <CinematicBackground />
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
@@ -21,5 +24,6 @@ export default function App() {
       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
       <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
     </Routes>
+    </>
   );
 }

@@ -4,17 +4,95 @@
 
 * { box-sizing: border-box; }
 
+html, body, #root {
+  min-height: 100%;
+}
+
 body {
   margin: 0;
   font-family: "Poppins", system-ui, sans-serif;
-  background-color: #0F0B1E;
+  background-color: #0A0715;
   color: #F5F3FF;
+  position: relative;
 }
 
 .light body { background-color: #F6F4FB; }
+.light .bg-cinema-gradient {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 0%, rgba(124,92,252,0.10), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 85% 20%, rgba(236,72,153,0.08), transparent 60%),
+    radial-gradient(ellipse 70% 70% at 50% 100%, rgba(99,60,180,0.08), transparent 60%),
+    linear-gradient(160deg, #F6F4FB 0%, #EFE9FB 40%, #F3E9F5 70%, #F6F4FB 100%);
+}
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-thumb { background: #7C5CFC55; border-radius: 999px; }
 
 .scrollbar-none::-webkit-scrollbar { display: none; }
 .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ---------- Cinematic background effects ---------- */
+
+.glow-orb { animation: glowPulse 8s ease-in-out infinite; }
+.glow-orb-slow { animation: glowPulseSlow 12s ease-in-out infinite; }
+.glow-orb-reverse { animation: glowPulseSlow 15s ease-in-out infinite reverse; }
+
+.light-rays {
+  background: repeating-linear-gradient(
+    100deg,
+    transparent 0px,
+    transparent 60px,
+    rgba(240, 195, 111, 0.05) 61px,
+    rgba(240, 195, 111, 0.05) 63px,
+    transparent 64px,
+    transparent 160px
+  );
+  animation: raysDrift 18s ease-in-out infinite alternate;
+  mix-blend-mode: screen;
+}
+
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(240, 195, 111, 0.9) 0%, rgba(167, 139, 250, 0.4) 60%, transparent 100%);
+  animation: floatUp 16s linear infinite;
+}
+.particle-1 { left: 12%; bottom: -5%; width: 3px; height: 3px; animation-duration: 15s; animation-delay: 0s; }
+.particle-2 { left: 28%; bottom: -5%; width: 4px; height: 4px; animation-duration: 19s; animation-delay: 2s; }
+.particle-3 { left: 46%; bottom: -5%; width: 2px; height: 2px; animation-duration: 13s; animation-delay: 5s; }
+.particle-4 { left: 64%; bottom: -5%; width: 3px; height: 3px; animation-duration: 21s; animation-delay: 1s; }
+.particle-5 { left: 80%; bottom: -5%; width: 4px; height: 4px; animation-duration: 17s; animation-delay: 7s; }
+.particle-6 { left: 92%; bottom: -5%; width: 2px; height: 2px; animation-duration: 14s; animation-delay: 4s; }
+
+/* Glassmorphism treatment applied globally to surface cards, without
+   touching every component file individually. Falls after the Tailwind
+   utility layer so it overrides the plain solid-color utility classes. */
+.bg-surface {
+  background-color: rgba(26, 21, 48, 0.55) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.bg-surface2 {
+  background-color: rgba(34, 28, 62, 0.55) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.light .bg-surface {
+  background-color: rgba(255, 255, 255, 0.55) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.light .bg-surface2 {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-orb, .glow-orb-slow, .glow-orb-reverse, .light-rays, .particle {
+    animation: none !important;
+  }
+}

@@ -13,7 +13,7 @@ export default function Watchlist() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-base pb-24 text-white">
+    <div className="min-h-screen relative z-10 pb-24 text-white">
       <div className="mx-auto max-w-md px-4 pt-6">
         <h1 className="text-lg font-bold">My Watchlist</h1>
         <p className="text-sm text-white/40">{movies.length} movies saved</p>

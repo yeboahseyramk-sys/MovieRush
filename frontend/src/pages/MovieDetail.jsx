@@ -23,10 +23,10 @@ export default function MovieDetail() {
     setSaved((s) => !s);
   };
 
-  if (!movie) return <div className="flex h-screen items-center justify-center bg-base text-white/50">Loading...</div>;
+  if (!movie) return <div className="flex h-screen items-center justify-center text-white/50 relative z-10">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-base pb-10 text-white">
+    <div className="min-h-screen relative z-10 pb-10 text-white">
       <div className="mx-auto max-w-md px-4 pt-6">
         <div className="flex items-center justify-between">
           <button onClick={() => navigate(-1)} className="flex h-9 w-9 items-center justify-center rounded-full bg-surface">

@@ -65,10 +65,10 @@ export default function Admin() {
     setUsers((list) => list.map((x) => (x._id === u._id ? data : x)));
   };
 
-  if (!stats) return <div className="flex h-screen items-center justify-center bg-base text-white/50">Loading dashboard...</div>;
+  if (!stats) return <div className="flex h-screen items-center justify-center text-white/50 relative z-10">Loading dashboard...</div>;
 
   return (
-    <div className="min-h-screen bg-base pb-10 text-white">
+    <div className="min-h-screen relative z-10 pb-10 text-white">
       <div className="mx-auto max-w-2xl px-4 pt-6">
         <div className="flex items-center gap-3">
           <button onClick={() => navigate("/profile")} className="flex h-9 w-9 items-center justify-center rounded-full bg-surface">

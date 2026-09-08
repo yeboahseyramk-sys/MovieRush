@@ -22,10 +22,10 @@ export default function Profile() {
     loadProfile();
   }, []);
 
-  if (!profile) return <div className="flex h-screen items-center justify-center bg-base text-white/50">Loading...</div>;
+  if (!profile) return <div className="flex h-screen items-center justify-center text-white/50 relative z-10">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-base pb-24 text-white">
+    <div className="min-h-screen relative z-10 pb-24 text-white">
       <div className="mx-auto max-w-md px-4 pt-6">
         <div className="flex flex-col items-center">
           <div className="relative">
