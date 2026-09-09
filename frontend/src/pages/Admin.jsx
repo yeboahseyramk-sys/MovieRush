@@ -5,6 +5,8 @@ import {
 } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 import api from "../api/axios";
+import AddMovieForm from "../components/AddMovieForm";
+import BulkMovieUploader from "../components/BulkMovieUploader";
 
 function StatCard({ label, value, icon: Icon, accent }) {
   return (
@@ -24,23 +26,26 @@ export default function Admin() {
   const [signups, setSignups] = useState([]);
   const [activeUsers, setActiveUsers] = useState([]);
   const [topMovies, setTopMovies] = useState([]);
+  const [allMovies, setAllMovies] = useState([]);
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState("overview");
 
   const loadAll = async () => {
-    const [s, su, au, tm, us] = await Promise.all([
+    const [s, su, au, tm, us, mv] = await Promise.all([
       api.get("/admin/stats"),
       api.get("/admin/analytics/signups"),
       api.get("/admin/analytics/active-users"),
       api.get("/admin/analytics/top-movies"),
       api.get("/admin/users"),
+      api.get("/movies"),
     ]);
     setStats(s.data);
     setSignups(su.data.map((d) => ({ ...d, date: d.date.slice(5) })));
     setActiveUsers(au.data.map((d) => ({ ...d, date: d.date.slice(5) })));
     setTopMovies(tm.data);
     setUsers(us.data.users);
+    setAllMovies(mv.data);
   };
 
   useEffect(() => {
@@ -65,6 +70,12 @@ export default function Admin() {
     setUsers((list) => list.map((x) => (x._id === u._id ? data : x)));
   };
 
+  const deleteMovie = async (id) => {
+    if (!confirm("Delete this movie?")) return;
+    await api.delete(`/movies/${id}`);
+    setAllMovies((m) => m.filter((x) => x._id !== id));
+  };
+
   if (!stats) return <div className="flex h-screen items-center justify-center text-white/50 relative z-10">Loading dashboard...</div>;
 
   return (
@@ -78,7 +89,7 @@ export default function Admin() {
         </div>
 
         <div className="mt-4 flex gap-2">
-          {["overview", "users"].map((t) => (
+          {["overview", "movies", "users"].map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -177,6 +188,38 @@ export default function Admin() {
                 </div>
               ))}
               {users.length === 0 && <p className="text-sm text-white/30">No users found.</p>}
+            </div>
+          </div>
+        )}
+
+        {tab === "movies" && (
+          <div className="mt-5 flex flex-col gap-4">
+            <BulkMovieUploader onDone={loadAll} />
+            <AddMovieForm onAdded={loadAll} />
+
+            <div className="rounded-xl2 bg-surface p-4">
+              <h3 className="mb-3 text-sm font-semibold">All Movies ({allMovies.length})</h3>
+              <div className="flex flex-col gap-2">
+                {allMovies.map((m) => (
+                  <div key={m._id} className="flex items-center justify-between rounded-xl2 bg-surface2 p-2.5">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <img
+                        src={m.poster}
+                        className="h-12 w-9 shrink-0 rounded object-cover"
+                        onError={(e) => { e.target.src = "https://placehold.co/60x90/1A1530/7C5CFC?text=?"; }}
+                      />
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium">{m.title}</p>
+                        <p className="text-xs text-white/40">{m.genre} · {m.year} · {m.views} views</p>
+                      </div>
+                    </div>
+                    <button onClick={() => deleteMovie(m._id)} className="shrink-0 rounded-full bg-black/20 p-1.5">
+                      <Trash2 size={13} className="text-red-400" />
+                    </button>
+                  </div>
+                ))}
+                {allMovies.length === 0 && <p className="text-sm text-white/30">No movies yet.</p>}
+              </div>
             </div>
           </div>
         )}

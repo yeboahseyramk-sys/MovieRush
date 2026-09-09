@@ -84,6 +84,20 @@ router.post("/", requireAuth, requireAdmin, async (req, res) => {
   }
 });
 
+// Admin: bulk-create movies in one request, for batch/automated uploads
+router.post("/bulk", requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { movies } = req.body;
+    if (!Array.isArray(movies) || movies.length === 0) {
+      return res.status(400).json({ message: "Provide a non-empty 'movies' array" });
+    }
+    const created = await Movie.insertMany(movies, { ordered: false });
+    res.status(201).json({ count: created.length, movies: created });
+  } catch (err) {
+    res.status(400).json({ message: "Bulk create failed", error: err.message });
+  }
+});
+
 router.put("/:id", requireAuth, requireAdmin, async (req, res) => {
   try {
     const movie = await Movie.findByIdAndUpdate(req.params.id, req.body, { new: true });
